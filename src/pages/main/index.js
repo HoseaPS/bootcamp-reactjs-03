@@ -17,6 +17,7 @@ class Main extends Component {
           url: PropTypes.string,
         }),
       ),
+      error: PropTypes.oneOfType([null, PropTypes.string]),
     }).isRequired,
   };
 
