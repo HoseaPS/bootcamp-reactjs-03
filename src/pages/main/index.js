@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as FavoriteACtions from '../../store/actions/favorites';
+import { Creators as FavoriteActions } from '../../store/ducks/favorites';
 
 class Main extends Component {
   static propTypes = {
@@ -69,7 +69,7 @@ const mapStateToProps = state => ({
   favorites: state.favorites,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(FavoriteACtions, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(FavoriteActions, dispatch);
 
 export default connect(
   mapStateToProps,
