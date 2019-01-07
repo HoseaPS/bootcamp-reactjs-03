@@ -7,14 +7,17 @@ import * as FavoriteACtions from '../../store/actions/favorites';
 class Main extends Component {
   static propTypes = {
     addFavoriteRequest: PropTypes.func.isRequired,
-    favorites: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        name: PropTypes.string,
-        description: PropTypes.string,
-        url: PropTypes.string,
-      }),
-    ).isRequired,
+    favorites: PropTypes.shape({
+      loading: PropTypes.bool,
+      data: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+          name: PropTypes.string,
+          description: PropTypes.string,
+          url: PropTypes.string,
+        }),
+      ),
+    }).isRequired,
   };
 
   state = {
@@ -24,24 +27,26 @@ class Main extends Component {
   handleAddRepository = (event) => {
     event.preventDefault();
     this.props.addFavoriteRequest(this.state.repositoryInput);
+    this.setState({ repositoryInput: '' });
   };
 
   render() {
-    const { repositoyInput } = this.state;
     return (
       <Fragment>
         <form onSubmit={this.handleAddRepository}>
           <input
             placeholder="usuário/repositório"
-            value={repositoyInput}
+            value={this.state.repositoyInput}
             onChange={e => this.setState({ repositoryInput: e.target.value })}
           />
           <button type="submit">Adicionar</button>
+
+          {this.props.favorites.loading && <span>Carregando</span>}
         </form>
 
         <ul>
-          {this.props.favorites.map(favorite => (
-            <li>
+          {this.props.favorites.data.map((favorite, index) => (
+            <li key={index}>
               <p>
                 <strong>{favorite.name}</strong>
                 {favorite.description}
